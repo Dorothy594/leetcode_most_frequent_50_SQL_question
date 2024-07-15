@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT Signups.user_id, ROUND(IFNULL(confirmation, 0), 2) AS confirmation_rate FROM Signups
+LEFT JOIN(
+SELECT
+    user_id,
+    SUM(action = 'confirmed') / COUNT(*) AS confirmation
+FROM Confirmations
+GROUP BY user_id) C
+ON Signups.user_id = C.user_id
+ORDER BY confirmation_rate;
