@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+SELECT
+    ROUND(100 * SUM(label) / COUNT(*), 2) AS immediate_percentage
+FROM(
+    SELECT
+        customer_id,
+        (CASE WHEN MIN(order_date) = MIN(customer_pref_delivery_date) THEN 1 ELSE 0 END) AS label
+    FROM
+        Delivery
+    GROUP BY
+        customer_id
+) u
