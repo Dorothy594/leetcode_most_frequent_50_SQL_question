@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT count_result.class AS class 
+FROM (
+    SELECT
+        class,
+        COUNT(student) >= 5
+    FROM Courses
+    GROUP BY class
+    HAVING COUNT(student) >= 5
+) AS count_result;
