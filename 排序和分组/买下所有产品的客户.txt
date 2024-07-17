@@ -7,5 +7,5 @@ FROM(
         (SELECT COUNT(p.product_key) FROM Product p) AS p_num
     FROM Customer c
     GROUP BY c.customer_id
-    HAVING COUNT(product_key) = p_num
+    HAVING COUNT(DISTINCT(product_key)) = p_num
 ) AS r;
