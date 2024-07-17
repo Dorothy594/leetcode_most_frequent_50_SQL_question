@@ -1,0 +1,11 @@
+# Write your MySQL query statement below
+SELECT r.customer_id
+FROM(
+    SELECT
+        c.customer_id,
+        COUNT(c.product_key) AS num,
+        (SELECT COUNT(p.product_key) FROM Product p) AS p_num
+    FROM Customer c
+    GROUP BY c.customer_id
+    HAVING COUNT(product_key) = p_num
+) AS r;
