@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+select 
+    visited_on, amount, average_amount
+from (
+    select 
+        distinct visited_on,  # 因为窗口函数是按照日期计算的。所以相同日期的结果也是相同的，直接去重即可
+        sum(amount) over(order by visited_on range interval 6 day preceding) amount, # 按照日期排序，范围是当前日期和当前日期的前六天
+        round(sum(amount) over(order by visited_on range interval 6 day preceding)/7, 2) average_amount # 同理
+    from 
+        Customer) t
+where datediff(visited_on, (select min(visited_on) from Customer))>=6 #去除日期不足7日的结果
+order by visited_on;
