@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT
+    d.name AS Department,
+    new.name AS Employee,
+    new.salary AS Salary
+FROM(
+    SELECT
+        e.*,
+        DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC) AS salary_rank
+    FROM Employee e
+) AS new
+LEFT JOIN Department d ON new.departmentId = d.id
+-- ORDER BY Department, salary_rank
+WHERE salary_rank <= 3;
